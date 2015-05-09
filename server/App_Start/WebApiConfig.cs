@@ -16,6 +16,7 @@ namespace server
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
             // Web API routes
             config.MapHttpAttributeRoutes();

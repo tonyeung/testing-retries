@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -17,9 +18,18 @@ namespace server.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return "value";
+            var nowSeconds = DateTime.UtcNow.Second;
+            if (nowSeconds % 2 == 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "value");
+            }
+            else
+            {
+                System.Threading.Thread.Sleep(1 * 60 * 1000);
+                return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, "timeout");
+            }
         }
 
         // POST api/values

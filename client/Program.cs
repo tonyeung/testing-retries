@@ -16,12 +16,19 @@ namespace client
         static void Main(string[] args)
         {
             CookieContainer = new CookieContainer();
-            
-            using (var handler = new HttpClientHandler() { CookieContainer = CookieContainer })
-            using (var client = new HttpClient(new RetryDelegatingHandler(handler)))
+            string key = string.Empty;
+            do
             {
-                //var myResult = client.PostAsync(yourUri, yourHttpContent).Result;
+                using (var handler = new HttpClientHandler() { CookieContainer = CookieContainer })
+                using (var client = new HttpClient(new RetryDelegatingHandler(handler)))
+                {
+                    Console.WriteLine("try");
+                    var myResult = client.GetAsync("http://localhost:58505/api/Values/1").Result;
+                    Console.WriteLine(myResult);
+                }
+                key = Console.ReadLine();
             }
+            while (key != "q");
 
         }
     }
